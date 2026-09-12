@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>ClipGlue</AssemblyName>
+    <RootNamespace>ClipGlue</RootNamespace>
+    <ApplicationIcon>clipglue.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      Dev-loop convenience only (`dotnet build` / F5-run): these still land
+      right next to ClipGlue.exe in bin\Debug|Release\... exactly as before.
+      CopyToPublishDirectory is deliberately NOT set here anymore - the
+      self-contained single-file publish profile
+      (Properties/PublishProfiles/win-x64.pubxml) is meant to produce
+      literally one .exe with no loose files next to it. For that build,
+      the same three files are embedded as resources below instead and
+      extracted to a per-user cache folder (%LOCALAPPDATA%\ClipGlue\bin) the
+      first time they're actually needed - see Paths.cs. Paths.FindTool
+      always checks next to the exe first, so a normal dev build never
+      touches the embedded copies or the cache folder at all.
+    -->
+    <None Include="ffmpeg.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ffprobe.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="clipglue.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+
+    <EmbeddedResource Include="ffmpeg.exe">
+      <LogicalName>ClipGlue.EmbeddedTools.ffmpeg.exe</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ffprobe.exe">
+      <LogicalName>ClipGlue.EmbeddedTools.ffprobe.exe</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="clipglue.ico">
+      <LogicalName>ClipGlue.EmbeddedTools.clipglue.ico</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
