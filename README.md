@@ -1,63 +1,61 @@
 # ClipGlue
 
-Prosty, szybki program do przycinania i sklejania klipów wideo — bez
-przekodowywania całego pliku, kiedy tylko się da. Wybierasz pliki,
-podajesz zakresy czasu do zachowania (albo zaznaczasz je wizualnie na
-osi czasu), a ClipGlue tnie i skleja je jednym poleceniem ffmpeg.
+A simple, fast tool for trimming and joining video clips — without
+re-encoding the whole file whenever it can be avoided. Pick your files,
+give the time ranges you want to keep (or select them visually on a
+timeline), and ClipGlue cuts and concatenates them with a single ffmpeg
+pass.
 
-WPF / .NET 8, Windows. Port aplikacji napisanej pierwotnie w Pythonie
-(Tkinter), przepisany od zera z tym samym silnikiem ffmpeg pod spodem.
+WPF / .NET 8, Windows. A from-scratch port of an app originally written
+in Python (Tkinter), rebuilt on the same ffmpeg engine underneath.
 
-## Funkcje
+## Features
 
-- Lista plików wideo z zakresami czasu do zachowania na każdym z nich
-  (przeciąganie kolejności, wielokrotne zakresy na plik).
-- Okno **Trim range** — podgląd wideo z prawdziwym odtwarzaniem, minimapa
-  całego pliku, powiększana oś czasu z miniaturkami klatek, przyciąganie
-  do klatek kluczowych, zaznaczanie in/out myszą lub klawiaturą.
-- **Podgląd całego projektu** w oknie głównym — odtwarza sklejony wynik
-  na żywo, bez kodowania niczego na dysk, żeby ocenić cięcia przed
-  uruchomieniem właściwego przebiegu.
-- Inteligentne cięcie: kopiowanie strumienia (bez rekodowania) tam, gdzie
-  się da, przekodowanie tylko fragmentów przyciętych poza klatkami
-  kluczowymi.
-- Kolejka zadań, pasek postępu, podgląd napisów na klatce.
-- `ffmpeg`/`ffprobe` dołączone do programu — nic dodatkowego nie trzeba
-  instalować.
+- File list with keep-ranges per file (drag to reorder, multiple ranges
+  per file).
+- **Trim range** window — real video playback, a full-file minimap, a
+  zoomable timeline with frame thumbnails, keyframe snapping, mouse or
+  keyboard in/out marking.
+- **Whole-project preview** in the main window — plays back the stitched
+  result live, without encoding anything to disk, so you can check the
+  cuts before running the real job.
+- Smart cutting: stream-copy (no re-encoding) wherever possible,
+  re-encoding only the pieces trimmed off a keyframe.
+- Job queue, progress bar, subtitle overlay on the preview frame.
+- `ffmpeg`/`ffprobe` bundled with the app — nothing extra to install.
 
-## Zrzuty ekranu
+## Screenshots
 
-**Okno główne** — lista plików z zakresami i podgląd projektu:
+**Main window** — file list with ranges and the project preview:
 
-![Okno główne ClipGlue](assets/screenshots/main-window.png)
+![ClipGlue main window](assets/screenshots/main-window.png)
 
-**Trim range** — precyzyjne przycinanie z minimapą, filmstripem i
-zaznaczaniem in/out:
+**Trim range** — precise trimming with a minimap, filmstrip, and in/out
+marking:
 
-![Okno Trim range](assets/screenshots/trim-range.png)
+![Trim range window](assets/screenshots/trim-range.png)
 
-## Wymagania
+## Requirements
 
 - Windows 10/11
-- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) do
-  budowania ze źródeł
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) to
+  build from source
 
-## Budowanie i uruchomienie
+## Build & run
 
 ```bash
 dotnet build ClipGlue.csproj -c Release
 ```
 
-Uruchomiony plik `.exe` znajdzie się w
-`bin\Release\net8.0-windows\ClipGlue.exe` razem ze skopiowanym
-`ffmpeg.exe`/`ffprobe.exe`.
+The built `.exe` lands in `bin\Release\net8.0-windows\ClipGlue.exe`
+alongside a copy of `ffmpeg.exe`/`ffprobe.exe`.
 
-## Jak to działa
+## How it works
 
-1. Dodaj pliki wideo przyciskiem **Add video files**.
-2. Wpisz zakresy do zachowania w formacie `HH:MM:SS-HH:MM:SS` albo
-   kliknij ▷ przy pliku, żeby otworzyć okno **Trim range** i zaznaczyć je
-   wizualnie na osi czasu.
-3. Sprawdź całość w **Project preview**, jeśli chcesz zobaczyć sklejkę
-   przed uruchomieniem.
-4. **START** — program tnie i skleja pliki jednym przebiegiem ffmpeg.
+1. Add video files with **Add video files**.
+2. Type the ranges to keep as `HH:MM:SS-HH:MM:SS`, or click ▷ next to a
+   file to open the **Trim range** window and select them visually on
+   the timeline.
+3. Check the whole thing in **Project preview** if you want to see the
+   stitched result before running the job.
+4. **START** — the app cuts and joins the files in a single ffmpeg pass.
