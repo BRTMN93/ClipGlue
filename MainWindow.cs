@@ -176,7 +176,11 @@ public sealed class MainWindow : Window
         // sidesteps the whole class of bug: every descendant is always
         // measured against this window's real, finite Width.
         Width = 1040;
-        MinWidth = 940;
+        // 960, not 940: has to fit the left column's own 470 MinWidth plus
+        // the preview column's 440 (see OpenProjectPreview) plus the content
+        // grid's 2*PagePad margin, or the two column minimums fight each
+        // other and the preview's transport bar clips again.
+        MinWidth = 960;
         SizeToContent = SizeToContent.Height;
         // Only the horizontal half of this survives: FitInitialSize hands
         // the window straight to WindowPlacement.PinToTop afterwards, which
@@ -1548,7 +1552,15 @@ public sealed class MainWindow : Window
         _projectPreview.Visibility = Visibility.Visible;
         _rightColumn.Visibility = Visibility.Visible;
         _previewColumn.Width = new GridLength(42, GridUnitType.Star);
-        _previewColumn.MinWidth = 340;
+        // 440, not 340: the transport bar (timecode + transport buttons +
+        // volume slider, all in Auto|Star|Auto columns that never shrink
+        // below their own content) needs ~428 DIP before its outer padding
+        // and this column's left margin - measured via FormattedText on the
+        // exact "00:00:00 / 00:00:00" string plus the known button/slider
+        // sizes. At the old 340 the two Auto ends spilled past the window's
+        // edge at minimum window width - see MinWidth = 960 below, bumped to
+        // match.
+        _previewColumn.MinWidth = 440;
         UiHelpers.SetButtonText(_previewProjectButton, Loc.T("BtnHidePreview"));
         _projectPreview.LoadProject(CollectProjectLoosely());
         UpdatePreviewButtonState();
