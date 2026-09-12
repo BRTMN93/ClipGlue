@@ -6,8 +6,6 @@ give the time ranges you want to keep (or select them visually on a
 timeline), and ClipGlue cuts and concatenates them with a single ffmpeg
 pass.
 
-WPF / .NET 8, Windows.
-
 ## Features
 
 - File list with keep-ranges per file (drag to reorder, multiple ranges
