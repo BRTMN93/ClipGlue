@@ -6,8 +6,7 @@ give the time ranges you want to keep (or select them visually on a
 timeline), and ClipGlue cuts and concatenates them with a single ffmpeg
 pass.
 
-WPF / .NET 8, Windows. A from-scratch port of an app originally written
-in Python (Tkinter), rebuilt on the same ffmpeg engine underneath.
+WPF / .NET 8, Windows.
 
 ## Features
 
